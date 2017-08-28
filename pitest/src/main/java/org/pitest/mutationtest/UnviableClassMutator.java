@@ -19,12 +19,8 @@ import java.util.Map;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.pitest.mutationtest.engine.gregor.AbstractInsnMutator;
-import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
-import org.pitest.mutationtest.engine.gregor.MethodInfo;
-import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
-import org.pitest.mutationtest.engine.gregor.MutationContext;
-import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
+import org.pitest.mutationtest.engine.gregor.*;
+import org.pitest.mutationtest.engine.gregor.AbstractInstructionMutator;
 
 public class UnviableClassMutator implements MethodMutatorFactory {
 
@@ -47,7 +43,7 @@ public class UnviableClassMutator implements MethodMutatorFactory {
 
 }
 
-class UnviableClassMethodVisitor extends AbstractInsnMutator {
+class UnviableClassMethodVisitor extends AbstractInstructionMutator {
 
   UnviableClassMethodVisitor(final MethodMutatorFactory factory,
       final MethodInfo methodInfo, final MutationContext context,
@@ -58,8 +54,6 @@ class UnviableClassMethodVisitor extends AbstractInsnMutator {
   @Override
   protected Map<Integer, ZeroOperandMutation> getMutations() {
     final Map<Integer, ZeroOperandMutation> map = new HashMap<Integer, ZeroOperandMutation>();
-    // map.put(Opcodes.ALOAD, new InsnSubstitution(Opcodes.TABLESWITCH,
-    // "Made unviable class"));
     map.put(Opcodes.IRETURN, new InsnSubstitution(Opcodes.FCMPG,
         "Made unviable class"));
     map.put(Opcodes.RETURN, new InsnSubstitution(Opcodes.FCMPG,

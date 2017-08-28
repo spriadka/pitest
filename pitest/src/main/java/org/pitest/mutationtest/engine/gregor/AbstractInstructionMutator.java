@@ -20,15 +20,15 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 
-public abstract class AbstractInsnMutator extends MethodVisitor {
+public abstract class AbstractInstructionMutator extends MethodVisitor {
 
   private final MethodMutatorFactory factory;
   private final MutationContext      context;
   private final MethodInfo           methodInfo;
 
-  public AbstractInsnMutator(final MethodMutatorFactory factory,
-      final MethodInfo methodInfo, final MutationContext context,
-      final MethodVisitor delegateMethodVisitor) {
+  public AbstractInstructionMutator(final MethodMutatorFactory factory,
+                                    final MethodInfo methodInfo, final MutationContext context,
+                                    final MethodVisitor delegateMethodVisitor) {
     super(Opcodes.ASM6, delegateMethodVisitor);
     this.factory = factory;
     this.methodInfo = methodInfo;
@@ -38,11 +38,11 @@ public abstract class AbstractInsnMutator extends MethodVisitor {
   protected abstract Map<Integer, ZeroOperandMutation> getMutations();
 
   @Override
-  public void visitInsn(final int opcode) {
-    if (canMutate(opcode)) {
-      createMutationForInsnOpcode(opcode);
+  public void visitInsn(final int operationCode) {
+    if (canMutate(operationCode)) {
+      createMutationForInstructionOperationCode(operationCode);
     } else {
-      this.mv.visitInsn(opcode);
+      this.mv.visitInsn(operationCode);
     }
   }
 
@@ -50,21 +50,21 @@ public abstract class AbstractInsnMutator extends MethodVisitor {
     return getMutations().containsKey(opcode);
   }
 
-  private void createMutationForInsnOpcode(final int opcode) {
-    final ZeroOperandMutation mutation = getMutations().get(opcode);
+  private void createMutationForInstructionOperationCode(final int operationCode) {
+    final ZeroOperandMutation mutation = getMutations().get(operationCode);
 
     final MutationIdentifier newId = this.context.registerMutation(
-        this.factory, mutation.decribe(opcode, this.methodInfo));
+        this.factory, mutation.decribe(operationCode, this.methodInfo));
 
     if (this.context.shouldMutate(newId)) {
-      mutation.apply(opcode, this.mv);
+      mutation.apply(operationCode, this.mv);
     } else {
-      applyUnmutatedInstruction(opcode);
+      applyUnmutatedInstruction(operationCode);
     }
   }
 
-  private void applyUnmutatedInstruction(final int opcode) {
-    this.mv.visitInsn(opcode);
+  private void applyUnmutatedInstruction(final int operationCode) {
+    this.mv.visitInsn(operationCode);
   }
 
 }

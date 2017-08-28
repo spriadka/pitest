@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.pitest.mutationtest.engine.gregor.AbstractInsnMutator;
+import org.pitest.mutationtest.engine.gregor.AbstractInstructionMutator;
 import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
@@ -48,7 +48,7 @@ public enum MathMutator implements MethodMutatorFactory {
 
 }
 
-class MathMethodVisitor extends AbstractInsnMutator {
+class MathMethodVisitor extends AbstractInstructionMutator {
 
   MathMethodVisitor(final MethodMutatorFactory factory,
       final MethodInfo methodInfo, final MutationContext context,
