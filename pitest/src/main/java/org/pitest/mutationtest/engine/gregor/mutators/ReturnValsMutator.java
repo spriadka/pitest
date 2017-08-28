@@ -28,7 +28,7 @@ import java.util.Map;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.pitest.mutationtest.engine.gregor.AbstractInsnMutator;
+import org.pitest.mutationtest.engine.gregor.AbstractInstructionMutator;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
@@ -56,7 +56,7 @@ public enum ReturnValsMutator implements MethodMutatorFactory {
 
 }
 
-class ReturnValsMethodVisitor extends AbstractInsnMutator {
+class ReturnValsMethodVisitor extends AbstractInstructionMutator {
 
   ReturnValsMethodVisitor(final MethodMutatorFactory factory,
       final MethodInfo methodInfo, final MutationContext context,
