@@ -19,6 +19,8 @@ import org.objectweb.asm.Type;
 
 public class MethodInfo {
 
+  private static final String INSTANCE_INITIALIZATION_METHOD_NAME = "<init>";
+
   private final ClassInfo owningClass;
   private final int       access;
   private final String    methodName;
@@ -43,11 +45,6 @@ public class MethodInfo {
   public String getName() {
     return this.methodName;
   }
-
-  public String getMethodDescriptor() {
-    return this.methodDescriptor;
-  }
-
   @Override
   public String toString() {
     return "MethodInfo [access=" + this.access + ", desc="
@@ -67,7 +64,7 @@ public class MethodInfo {
   }
 
   public static boolean isConstructor(final String methodName) {
-    return "<init>".equals(methodName);
+    return INSTANCE_INITIALIZATION_METHOD_NAME.equals(methodName);
   }
 
   public Type getReturnType() {

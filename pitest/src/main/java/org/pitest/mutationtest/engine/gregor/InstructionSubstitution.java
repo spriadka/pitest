@@ -16,12 +16,12 @@ package org.pitest.mutationtest.engine.gregor;
 
 import org.objectweb.asm.MethodVisitor;
 
-public class InsnSubstitution implements ZeroOperandMutation {
+public class InstructionSubstitution implements ZeroOperandMutation {
 
   private final int    replacementOpcode;
   private final String message;
 
-  public InsnSubstitution(final int replacementOpcode, final String message) {
+  public InstructionSubstitution(final int replacementOpcode, final String message) {
     this.replacementOpcode = replacementOpcode;
     this.message = message;
   }
@@ -32,7 +32,7 @@ public class InsnSubstitution implements ZeroOperandMutation {
   }
 
   @Override
-  public String decribe(final int opCode, final MethodInfo methodInfo) {
+  public String describe(final int opCode, final MethodInfo methodInfo) {
     return this.message;
   }
 

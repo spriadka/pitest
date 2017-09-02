@@ -54,7 +54,7 @@ public abstract class AbstractInstructionMutator extends MethodVisitor {
     final ZeroOperandMutation mutation = getMutations().get(operationCode);
 
     final MutationIdentifier newId = this.context.registerMutation(
-        this.factory, mutation.decribe(operationCode, this.methodInfo));
+        this.factory, mutation.describe(operationCode, this.methodInfo));
 
     if (this.context.shouldMutate(newId)) {
       mutation.apply(operationCode, this.mv);

@@ -255,7 +255,7 @@ public class TestMutationTesting {
   @Test
   public void shouldDetectUnviableMutations() {
     run(OneMutationOnly.class, UnviableMutationsTest.class,
-        Collections.singleton(new UnviableClassMutator()));
+        Collections.singleton(UnviableClassMutator.UNVIABLE_CLASS_MUTATOR));
     verifyResults(NON_VIABLE, NON_VIABLE);
 
   }
@@ -373,9 +373,9 @@ public class TestMutationTesting {
 
     final ClassloaderByteArraySource bas = new ClassloaderByteArraySource(
         IsolationUtils.getContextClassLoader());
-    
+
     MutationInterceptor emptyIntercpetor = CompoundMutationInterceptor.nullInterceptor();
-    
+
     final MutationSource source = new MutationSource(mutationConfig, new DefaultTestPrioritiser(
             coverageData), bas, emptyIntercpetor);
 

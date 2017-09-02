@@ -76,11 +76,6 @@ public class ConstructorCallMutatorTest extends MutatorTestBase {
 
     private final int i;
 
-    @SuppressWarnings("unused")
-    HasDelegateConstructorCall() {
-      this(1);
-    }
-
     HasDelegateConstructorCall(final int i) {
       this.i = i;
     }
@@ -93,7 +88,7 @@ public class ConstructorCallMutatorTest extends MutatorTestBase {
   }
 
   @Test
-  public void shouldNotRemoveCallsToDelegateContructor() throws Exception {
+  public void shouldNotRemoveCallsToDelegateConstructor() throws Exception {
     createTesteeWith(True.<MethodInfo> all(),
         ConstructorCallMutator.CONSTRUCTOR_CALL_MUTATOR);
     assertFalse(findMutationsFor(HasDelegateConstructorCall.class).contains(

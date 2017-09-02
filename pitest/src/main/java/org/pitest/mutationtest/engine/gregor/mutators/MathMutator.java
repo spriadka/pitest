@@ -20,7 +20,7 @@ import java.util.Map;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.pitest.mutationtest.engine.gregor.AbstractInstructionMutator;
-import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
+import org.pitest.mutationtest.engine.gregor.InstructionSubstitution;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
@@ -59,76 +59,76 @@ class MathMethodVisitor extends AbstractInstructionMutator {
   private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
 
   static {
-    MUTATIONS.put(Opcodes.IADD, new InsnSubstitution(Opcodes.ISUB,
+    MUTATIONS.put(Opcodes.IADD, new InstructionSubstitution(Opcodes.ISUB,
         "Replaced integer addition with subtraction"));
-    MUTATIONS.put(Opcodes.ISUB, new InsnSubstitution(Opcodes.IADD,
+    MUTATIONS.put(Opcodes.ISUB, new InstructionSubstitution(Opcodes.IADD,
         "Replaced integer subtraction with addition"));
-    MUTATIONS.put(Opcodes.IMUL, new InsnSubstitution(Opcodes.IDIV,
+    MUTATIONS.put(Opcodes.IMUL, new InstructionSubstitution(Opcodes.IDIV,
         "Replaced integer multiplication with division"));
-    MUTATIONS.put(Opcodes.IDIV, new InsnSubstitution(Opcodes.IMUL,
+    MUTATIONS.put(Opcodes.IDIV, new InstructionSubstitution(Opcodes.IMUL,
         "Replaced integer division with multiplication"));
-    MUTATIONS.put(Opcodes.IOR, new InsnSubstitution(Opcodes.IAND,
+    MUTATIONS.put(Opcodes.IOR, new InstructionSubstitution(Opcodes.IAND,
         "Replaced bitwise OR with AND"));
-    MUTATIONS.put(Opcodes.IAND, new InsnSubstitution(Opcodes.IOR,
+    MUTATIONS.put(Opcodes.IAND, new InstructionSubstitution(Opcodes.IOR,
         "Replaced bitwise AND with OR"));
-    MUTATIONS.put(Opcodes.IREM, new InsnSubstitution(Opcodes.IMUL,
+    MUTATIONS.put(Opcodes.IREM, new InstructionSubstitution(Opcodes.IMUL,
         "Replaced integer modulus with multiplication"));
-    MUTATIONS.put(Opcodes.IXOR, new InsnSubstitution(Opcodes.IAND,
+    MUTATIONS.put(Opcodes.IXOR, new InstructionSubstitution(Opcodes.IAND,
         "Replaced XOR with AND"));
-    MUTATIONS.put(Opcodes.ISHL, new InsnSubstitution(Opcodes.ISHR,
+    MUTATIONS.put(Opcodes.ISHL, new InstructionSubstitution(Opcodes.ISHR,
         "Replaced Shift Left with Shift Right"));
-    MUTATIONS.put(Opcodes.ISHR, new InsnSubstitution(Opcodes.ISHL,
+    MUTATIONS.put(Opcodes.ISHR, new InstructionSubstitution(Opcodes.ISHL,
         "Replaced Shift Right with Shift Left"));
-    MUTATIONS.put(Opcodes.IUSHR, new InsnSubstitution(Opcodes.ISHL,
+    MUTATIONS.put(Opcodes.IUSHR, new InstructionSubstitution(Opcodes.ISHL,
         "Replaced Unsigned Shift Right with Shift Left"));
 
     // longs
 
-    MUTATIONS.put(Opcodes.LADD, new InsnSubstitution(Opcodes.LSUB,
+    MUTATIONS.put(Opcodes.LADD, new InstructionSubstitution(Opcodes.LSUB,
         "Replaced long addition with subtraction"));
-    MUTATIONS.put(Opcodes.LSUB, new InsnSubstitution(Opcodes.LADD,
+    MUTATIONS.put(Opcodes.LSUB, new InstructionSubstitution(Opcodes.LADD,
         "Replaced long subtraction with addition"));
-    MUTATIONS.put(Opcodes.LMUL, new InsnSubstitution(Opcodes.LDIV,
+    MUTATIONS.put(Opcodes.LMUL, new InstructionSubstitution(Opcodes.LDIV,
         "Replaced long multiplication with division"));
-    MUTATIONS.put(Opcodes.LDIV, new InsnSubstitution(Opcodes.LMUL,
+    MUTATIONS.put(Opcodes.LDIV, new InstructionSubstitution(Opcodes.LMUL,
         "Replaced long division with multiplication"));
-    MUTATIONS.put(Opcodes.LOR, new InsnSubstitution(Opcodes.LAND,
+    MUTATIONS.put(Opcodes.LOR, new InstructionSubstitution(Opcodes.LAND,
         "Replaced bitwise OR with AND"));
-    MUTATIONS.put(Opcodes.LAND, new InsnSubstitution(Opcodes.LOR,
+    MUTATIONS.put(Opcodes.LAND, new InstructionSubstitution(Opcodes.LOR,
         "Replaced bitwise AND with OR"));
-    MUTATIONS.put(Opcodes.LREM, new InsnSubstitution(Opcodes.LMUL,
+    MUTATIONS.put(Opcodes.LREM, new InstructionSubstitution(Opcodes.LMUL,
         "Replaced long modulus with multiplication"));
-    MUTATIONS.put(Opcodes.LXOR, new InsnSubstitution(Opcodes.LAND,
+    MUTATIONS.put(Opcodes.LXOR, new InstructionSubstitution(Opcodes.LAND,
         "Replaced XOR with AND"));
-    MUTATIONS.put(Opcodes.LSHL, new InsnSubstitution(Opcodes.LSHR,
+    MUTATIONS.put(Opcodes.LSHL, new InstructionSubstitution(Opcodes.LSHR,
         "Replaced Shift Left with Shift Right"));
-    MUTATIONS.put(Opcodes.LSHR, new InsnSubstitution(Opcodes.LSHL,
+    MUTATIONS.put(Opcodes.LSHR, new InstructionSubstitution(Opcodes.LSHL,
         "Replaced Shift Right with Shift Left"));
-    MUTATIONS.put(Opcodes.LUSHR, new InsnSubstitution(Opcodes.LSHL,
+    MUTATIONS.put(Opcodes.LUSHR, new InstructionSubstitution(Opcodes.LSHL,
         "Replaced Unsigned Shift Right with Shift Left"));
 
     // floats
-    MUTATIONS.put(Opcodes.FADD, new InsnSubstitution(Opcodes.FSUB,
+    MUTATIONS.put(Opcodes.FADD, new InstructionSubstitution(Opcodes.FSUB,
         "Replaced float addition with subtraction"));
-    MUTATIONS.put(Opcodes.FSUB, new InsnSubstitution(Opcodes.FADD,
+    MUTATIONS.put(Opcodes.FSUB, new InstructionSubstitution(Opcodes.FADD,
         "Replaced float subtraction with addition"));
-    MUTATIONS.put(Opcodes.FMUL, new InsnSubstitution(Opcodes.FDIV,
+    MUTATIONS.put(Opcodes.FMUL, new InstructionSubstitution(Opcodes.FDIV,
         "Replaced float multiplication with division"));
-    MUTATIONS.put(Opcodes.FDIV, new InsnSubstitution(Opcodes.FMUL,
+    MUTATIONS.put(Opcodes.FDIV, new InstructionSubstitution(Opcodes.FMUL,
         "Replaced float division with multiplication"));
-    MUTATIONS.put(Opcodes.FREM, new InsnSubstitution(Opcodes.FMUL,
+    MUTATIONS.put(Opcodes.FREM, new InstructionSubstitution(Opcodes.FMUL,
         "Replaced float modulus with multiplication"));
 
     // doubles
-    MUTATIONS.put(Opcodes.DADD, new InsnSubstitution(Opcodes.DSUB,
+    MUTATIONS.put(Opcodes.DADD, new InstructionSubstitution(Opcodes.DSUB,
         "Replaced double addition with subtraction"));
-    MUTATIONS.put(Opcodes.DSUB, new InsnSubstitution(Opcodes.DADD,
+    MUTATIONS.put(Opcodes.DSUB, new InstructionSubstitution(Opcodes.DADD,
         "Replaced double subtraction with addition"));
-    MUTATIONS.put(Opcodes.DMUL, new InsnSubstitution(Opcodes.DDIV,
+    MUTATIONS.put(Opcodes.DMUL, new InstructionSubstitution(Opcodes.DDIV,
         "Replaced double multiplication with division"));
-    MUTATIONS.put(Opcodes.DDIV, new InsnSubstitution(Opcodes.DMUL,
+    MUTATIONS.put(Opcodes.DDIV, new InstructionSubstitution(Opcodes.DMUL,
         "Replaced double division with multiplication"));
-    MUTATIONS.put(Opcodes.DREM, new InsnSubstitution(Opcodes.DMUL,
+    MUTATIONS.put(Opcodes.DREM, new InstructionSubstitution(Opcodes.DMUL,
         "Replaced double modulus with multiplication"));
 
   }

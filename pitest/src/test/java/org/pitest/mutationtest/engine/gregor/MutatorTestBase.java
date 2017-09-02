@@ -143,22 +143,6 @@ public abstract class MutatorTestBase {
 
   }
 
-  protected List<Mutant> getMutants(
-      final FunctionalList<MutationDetails> details) {
-    return details.map(createMutant());
-  }
-
-  private F<MutationDetails, Mutant> createMutant() {
-    return new F<MutationDetails, Mutant>() {
-
-      @Override
-      public Mutant apply(final MutationDetails a) {
-        return MutatorTestBase.this.engine.getMutation(a.getId());
-      }
-
-    };
-  }
-
   protected Mutant getFirstMutant(final Collection<MutationDetails> actual) {
     assertFalse("No mutant found", actual.isEmpty());
     final Mutant mutant = this.engine.getMutation(actual.iterator().next()
@@ -181,50 +165,10 @@ public abstract class MutatorTestBase {
 
   }
 
-  protected void printMutant(final Mutant mutant) {    
+  protected void printMutant(final Mutant mutant) {
      final ClassReader reader = new ClassReader(mutant.getBytes());
      reader.accept(new TraceClassVisitor(null, new ASMifier(), new PrintWriter(
          System.out)), ClassReader.EXPAND_FRAMES);
-  }
-
-  protected void assertMutantsReturn(final Callable<String> mutee,
-
-      final FunctionalList<MutationDetails> details,
-      final String... expectedResults) {
-
-    final List<Mutant> mutants = this.getMutants(details);
-    assertEquals("Should return one mutant for each request", details.size(),
-        mutants.size());
-    final FunctionalList<String> results = FCollection.map(mutants,
-        mutantToStringReults(mutee));
-
-    int i = 0;
-    for (final String actual : results) {
-      assertEquals(expectedResults[i], actual);
-      i++;
-    }
-  }
-
-  private F<Mutant, String> mutantToStringReults(final Callable<String> mutee) {
-    return new F<Mutant, String>() {
-
-      @Override
-      public String apply(final Mutant mutant) {
-        return mutateAndCall(mutee, mutant);
-      }
-
-    };
-  }
-
-  protected void assertMutantsAreFrom(
-      final FunctionalList<MutationDetails> actualDetails,
-      final Class<?>... mutators) {
-    assertEquals(mutators.length, actualDetails.size());
-    int i = 0;
-    for (final MutationDetails each : actualDetails) {
-      assertEquals(each.getId().getMutator(), mutators[i].getName());
-      i++;
-    }
   }
 
   protected Mutant createFirstMutant(

@@ -19,46 +19,55 @@ import java.util.Map;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.pitest.mutationtest.engine.gregor.*;
+
 import org.pitest.mutationtest.engine.gregor.AbstractInstructionMutator;
+import org.pitest.mutationtest.engine.gregor.MethodInfo;
+import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
+import org.pitest.mutationtest.engine.gregor.MutationContext;
+import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
+import org.pitest.mutationtest.engine.gregor.InstructionSubstitution;
 
-public class UnviableClassMutator implements MethodMutatorFactory {
+public enum UnviableClassMutator implements MethodMutatorFactory {
 
-  @Override
-  public MethodVisitor create(final MutationContext context,
-      final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new UnviableClassMethodVisitor(this, methodInfo, context,
-        methodVisitor);
-  }
+    UNVIABLE_CLASS_MUTATOR;
 
-  @Override
-  public String getGloballyUniqueId() {
-    return this.getClass().getName();
-  }
+    @Override
+    public MethodVisitor create(final MutationContext context,
+                                final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
+        return new UnviableClassMethodVisitor(this, methodInfo, context,
+                methodVisitor);
+    }
 
-  @Override
-  public String getName() {
-    return "UNVIABLE_CLASS_MUTATOR";
-  }
+    @Override
+    public String getGloballyUniqueId() {
+        return this.getClass().getName();
+    }
+
+    @Override
+    public String getName() {
+        return name();
+    }
 
 }
 
 class UnviableClassMethodVisitor extends AbstractInstructionMutator {
 
-  UnviableClassMethodVisitor(final MethodMutatorFactory factory,
-      final MethodInfo methodInfo, final MutationContext context,
-      final MethodVisitor writer) {
-    super(factory, methodInfo, context, writer);
-  }
+    private static final String DESCRIPTION = "Made unviable class";
 
-  @Override
-  protected Map<Integer, ZeroOperandMutation> getMutations() {
-    final Map<Integer, ZeroOperandMutation> map = new HashMap<Integer, ZeroOperandMutation>();
-    map.put(Opcodes.IRETURN, new InsnSubstitution(Opcodes.FCMPG,
-        "Made unviable class"));
-    map.put(Opcodes.RETURN, new InsnSubstitution(Opcodes.FCMPG,
-        "Made unviable class"));
-    return map;
-  }
+    UnviableClassMethodVisitor(final MethodMutatorFactory factory,
+                               final MethodInfo methodInfo, final MutationContext context,
+                               final MethodVisitor writer) {
+        super(factory, methodInfo, context, writer);
+    }
+
+    @Override
+    protected Map<Integer, ZeroOperandMutation> getMutations() {
+        final Map<Integer, ZeroOperandMutation> map = new HashMap<Integer, ZeroOperandMutation>();
+        map.put(Opcodes.IRETURN, new InstructionSubstitution(Opcodes.FCMPG,
+                DESCRIPTION));
+        map.put(Opcodes.RETURN, new InstructionSubstitution(Opcodes.FCMPG,
+                DESCRIPTION));
+        return map;
+    }
 
 }
