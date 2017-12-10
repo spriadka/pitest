@@ -17,29 +17,15 @@ public class CollectionTestClass {
         stringList.contains(token);
     }
 
-    public void method() {
+    public void empty() {
         List<String> methodList = new ArrayList<String>();
-        Set<String> methodSet = new HashSet<String>();
-        Map<String,String> methodMap = new HashMap<String, String>();
-
-        List<String> nonempty = new ArrayList<String>(methodList);
-
-        String fifth = "fifth";
-        String sixth = "sisxth";
-
-        methodSet.clear();
     }
 
-    public static void staticMethod(){
+    public void nonempty(){
         List<String> methodList = new ArrayList<String>();
         Set<String> methodSet = new HashSet<String>();
         Map<String,String> methodMap = new HashMap<String, String>();
-
         List<String> nonempty = new ArrayList<String>(methodList);
-
-        String fifth = "fifth";
-        String sixth = "sisxth";
-
-        methodSet.clear();
+        List<String> sss = new ArrayList<String>(Arrays.asList("Hello"));
     }
 }

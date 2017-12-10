@@ -1,10 +1,9 @@
 package org.pitest.mutationtest.engine.gregor.mutators.collections;
 
-import com.sun.org.apache.bcel.internal.generic.POP;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.pitest.mutationtest.MutationEngineFactory;
+import org.objectweb.asm.tree.InsnList;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;

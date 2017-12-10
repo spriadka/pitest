@@ -42,12 +42,21 @@ public class EmptyCollectionMutatorTest extends MutatorTestBase {
         }
     }
 
+    public static class HasNonEmptyCollectionInMethod implements Callable<String> {
+
+        @Override
+        public String call() throws Exception {
+            List<String> input = new ArrayList<String>(Arrays.asList("Hello","World"));
+            return "" + input;
+        }
+    }
+
     @Test
     public void shouldReplaceNonEmptyCollectionWithEmptyCollection() throws Exception {
-        final Collection<MutationDetails> details = findMutationsFor(HasNonEmptyStringCollection.class);
+        final Collection<MutationDetails> details = findMutationsFor(HasNonEmptyCollectionInMethod.class);
         final Mutant mutant = getFirstMutant(details);
         printMutant(mutant);
-        assertMutantCallableReturns(new HasNonEmptyStringCollection("Hello"), mutant, "[]");
+        assertMutantCallableReturns(new HasNonEmptyCollectionInMethod(), mutant, "[]");
     }
 
 }
