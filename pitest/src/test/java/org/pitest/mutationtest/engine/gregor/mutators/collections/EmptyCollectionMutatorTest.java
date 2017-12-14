@@ -2,15 +2,10 @@ package org.pitest.mutationtest.engine.gregor.mutators.collections;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.util.TraceClassVisitor;
 import org.pitest.mutationtest.engine.Mutant;
 import org.pitest.mutationtest.engine.MutationDetails;
 import org.pitest.mutationtest.engine.gregor.MutatorTestBase;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -28,35 +23,49 @@ public class EmptyCollectionMutatorTest extends MutatorTestBase {
         assertEquals("EMPTY_COLLECTION_MUTATOR", EmptyCollectionMutator.EMPTY_COLLECTION_MUTATOR.getName());
     }
 
-    public static class HasNonEmptyStringCollection implements Callable<String> {
+    private static class EmptyCollectionAnonymous implements Callable<String> {
 
-        private List<String> input;
+        private String[] elements;
 
-        public HasNonEmptyStringCollection(String... elements) {
-            input = new ArrayList<String>(Arrays.asList(elements));
+        public EmptyCollectionAnonymous(String... elements) {
+            this.elements = elements;
         }
 
         @Override
         public String call() throws Exception {
-            return "" + this.input;
-        }
-    }
-
-    public static class HasNonEmptyCollectionInMethod implements Callable<String> {
-
-        @Override
-        public String call() throws Exception {
-            List<String> input = new ArrayList<String>(Arrays.asList("Hello","World"));
+            List<String> input = new ArrayList<String>(Arrays.asList(elements));
             return "" + input;
         }
     }
 
     @Test
-    public void shouldReplaceNonEmptyCollectionWithEmptyCollection() throws Exception {
-        final Collection<MutationDetails> details = findMutationsFor(HasNonEmptyCollectionInMethod.class);
+    public void shouldMutateAnonymousCollectionReference() throws Exception {
+        final Collection<MutationDetails> details = findMutationsFor(EmptyCollectionAnonymous.class);
         final Mutant mutant = getFirstMutant(details);
-        printMutant(mutant);
-        assertMutantCallableReturns(new HasNonEmptyCollectionInMethod(), mutant, "[]");
+        assertMutantCallableReturns(new EmptyCollectionAnonymous("Hello"), mutant, "[]");
+    }
+
+    private static class EmptyCollectionVariableReference implements Callable<String> {
+
+        private String[] elements;
+
+        public EmptyCollectionVariableReference(String... elements) {
+            this.elements = elements;
+        }
+
+        @Override
+        public String call() throws Exception {
+            List<String> elementsAsList = Arrays.asList(elements);
+            List<String> output = new ArrayList<String>(elementsAsList);
+            return "" + output;
+        }
+    }
+
+    @Test
+    public void shouldMutateCollectionAsVariableReference() throws Exception {
+        final Collection<MutationDetails> mutationDetails = findMutationsFor(EmptyCollectionVariableReference.class);
+        final Mutant mutant = getFirstMutant(mutationDetails);
+        assertMutantCallableReturns(new EmptyCollectionVariableReference("Hello"), mutant, "[]");
     }
 
 }

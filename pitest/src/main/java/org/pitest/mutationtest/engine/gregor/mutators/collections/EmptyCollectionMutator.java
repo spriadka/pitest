@@ -3,7 +3,6 @@ package org.pitest.mutationtest.engine.gregor.mutators.collections;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.InsnList;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
@@ -46,28 +45,29 @@ class EmptyCollectionMutatorVisitor extends MethodVisitor {
     }
 
     @Override
-    public void visitMethodInsn(int instruction, String owner, String methodName, String argumentsDescription, boolean b) {
-        if (isMutable(owner, methodName, argumentsDescription)) {
-            String mutationDescription = String.format("created no arg constructor for %s", owner);
+    public void visitMethodInsn(int instructionCode, String returnType, String methodName, String argumentsDescription,
+                                boolean isInterfaceMethod) {
+        if (isMutable(returnType, methodName, argumentsDescription)) {
+            String mutationDescription = String.format("Created no arg constructor for %s", returnType);
             MutationIdentifier mutationIdentifier = this.context
                     .registerMutation(this.factory, mutationDescription);
             if (this.context.shouldMutate(mutationIdentifier)) {
-                mutate(instruction,owner,methodName,argumentsDescription,b);
+                mutate(instructionCode,returnType,methodName,argumentsDescription,isInterfaceMethod);
             } else {
-                this.mv.visitMethodInsn(instruction, owner, methodName, argumentsDescription, b);
+                this.mv.visitMethodInsn(instructionCode, returnType, methodName, argumentsDescription, isInterfaceMethod);
             }
         } else {
-            this.mv.visitMethodInsn(instruction, owner, methodName, argumentsDescription, b);
+            this.mv.visitMethodInsn(instructionCode, returnType, methodName, argumentsDescription, isInterfaceMethod);
         }
     }
 
-    private boolean isMutable(String owner, String method, String argumentDescription) {
-        return isOwnerAssignableToCollection(owner)
-                && MethodInfo.isConstructor(method)
+    private boolean isMutable(String returnType, String methodName, String argumentDescription) {
+        return isReturnTypeAssignableToCollection(returnType)
+                && MethodInfo.isConstructor(methodName)
                 && !hasNoArgConstructor(argumentDescription);
     }
 
-    private boolean isOwnerAssignableToCollection(String owner) {
+    private boolean isReturnTypeAssignableToCollection(String owner) {
         String qualifiedName = owner.replace("/", ".");
         try {
             Class ownerClass = Class.forName(qualifiedName);
@@ -90,7 +90,7 @@ class EmptyCollectionMutatorVisitor extends MethodVisitor {
         this.mv.visitInsn(Opcodes.POP);
     }
 
-    private void callWithNoArgConstructor(int opcode, String owner, String methodName, String description, boolean b) {
-        this.mv.visitMethodInsn(opcode,owner,methodName,"()V",b);
+    private void callWithNoArgConstructor(int opcode, String returnType, String methodName, String description, boolean b) {
+        this.mv.visitMethodInsn(opcode,returnType,methodName,"()V",b);
     }
 }
