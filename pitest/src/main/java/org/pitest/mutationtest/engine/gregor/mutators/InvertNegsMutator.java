@@ -20,7 +20,7 @@ import java.util.Map;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.pitest.mutationtest.engine.gregor.AbstractInstructionMutator;
-import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
+import org.pitest.mutationtest.engine.gregor.InstructionSubstitution;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
@@ -54,10 +54,10 @@ class InvertNegsMethodVisitor extends AbstractInstructionMutator {
   private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
 
   static {
-    MUTATIONS.put(Opcodes.INEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.DNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.FNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.LNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.INEG, new InstructionSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.DNEG, new InstructionSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.FNEG, new InstructionSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.LNEG, new InstructionSubstitution(Opcodes.NOP, MESSAGE));
   }
 
   InvertNegsMethodVisitor(final MethodMutatorFactory factory,

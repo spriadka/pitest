@@ -48,7 +48,7 @@ public abstract class AbstractJumpMutator extends MethodVisitor {
   @Override
   public void visitJumpInsn(final int opcode, final Label label) {
     if (canMutate(opcode)) {
-      createMutationForJumpInsn(opcode, label);
+      createMutationForJumpInstruction(opcode, label);
     } else {
       this.mv.visitJumpInsn(opcode, label);
     }
@@ -58,7 +58,7 @@ public abstract class AbstractJumpMutator extends MethodVisitor {
     return this.getMutations().containsKey(opcode);
   }
 
-  private void createMutationForJumpInsn(final int opcode, final Label label) {
+  private void createMutationForJumpInstruction(final int opcode, final Label label) {
     final Substitution substitution = this.getMutations().get(opcode);
 
     final MutationIdentifier newId = this.context.registerMutation(

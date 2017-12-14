@@ -44,6 +44,9 @@ import org.pitest.mutationtest.engine.gregor.mutators.RemoveConditionalMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.RemoveConditionalMutator.Choice;
 import org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.collections.AddAllCollectionMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.collections.CollectionInitializationMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.collections.RemoveAllCollectionMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveIncrementsMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator;
@@ -158,6 +161,25 @@ public final class Mutator {
      * Experimental mutator that replaces method call with this
      */
     add("EXPERIMENTAL_NAKED_RECEIVER", NakedReceiverMutator.NAKED_RECEIVER);
+
+    /**
+     * Experimental mutator that deletes collection passed as an argument when creating Collections
+     */
+    add("COLLECTION_INITIALIZATION_MUTATOR", CollectionInitializationMutator.COLLECTION_INITIALIZATION_MUTATOR);
+
+
+    /**
+     * Experimental mutator that replaces collections passed into the addAll method with empty collection
+     */
+    add("COLLECTION_ADD_ALL_MUTATOR", new AddAllCollectionMutator());
+
+
+    /**
+     * Experimental mutator that replaces collections passed into the removeAll method with empty collection
+     */
+    add("COLLECTION_REMOVE_ALL_MUTATOR", new RemoveAllCollectionMutator());
+
+
 
     addGroup("REMOVE_SWITCH", RemoveSwitchMutator.makeMutators());
     addGroup("DEFAULTS", defaults());

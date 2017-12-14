@@ -67,10 +67,10 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
   private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
 
   static {
-    MUTATIONS.put(IRETURN, ireturnMutation());
-    MUTATIONS.put(DRETURN, dreturnMutation());
-    MUTATIONS.put(FRETURN, freturnMutation());
-    MUTATIONS.put(LRETURN, lreturnMutation());
+    MUTATIONS.put(IRETURN, integerReturnMutation());
+    MUTATIONS.put(DRETURN, doubleReturnMutation());
+    MUTATIONS.put(FRETURN, floatReturnMutation());
+    MUTATIONS.put(LRETURN, longReturnMutation());
     MUTATIONS.put(ARETURN, areturnMutation());
   }
 
@@ -96,7 +96,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
       }
 
       @Override
-      public String decribe(final int opCode, final MethodInfo methodInfo) {
+      public String describe(final int opCode, final MethodInfo methodInfo) {
         return "mutated return of Object value for "
             + methodInfo.getDescription()
             + " to ( if (x != null) null else throw new RuntimeException )";
@@ -105,7 +105,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
     };
   }
 
-  private static ZeroOperandMutation lreturnMutation() {
+  private static ZeroOperandMutation longReturnMutation() {
     return new ZeroOperandMutation() {
 
       @Override
@@ -116,7 +116,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
       }
 
       @Override
-      public String decribe(final int opCode, final MethodInfo methodInfo) {
+      public String describe(final int opCode, final MethodInfo methodInfo) {
         return "replaced return of long value with value + 1 for "
             + methodInfo.getDescription();
       }
@@ -124,7 +124,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
     };
   }
 
-  private static ZeroOperandMutation freturnMutation() {
+  private static ZeroOperandMutation floatReturnMutation() {
     return new ZeroOperandMutation() {
 
       @Override
@@ -148,7 +148,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
       }
 
       @Override
-      public String decribe(final int opCode, final MethodInfo methodInfo) {
+      public String describe(final int opCode, final MethodInfo methodInfo) {
         return "replaced return of float value with -(x + 1) for "
             + methodInfo.getDescription();
       }
@@ -156,7 +156,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
     };
   }
 
-  private static ZeroOperandMutation dreturnMutation() {
+  private static ZeroOperandMutation doubleReturnMutation() {
     return new ZeroOperandMutation() {
 
       @Override
@@ -180,7 +180,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
       }
 
       @Override
-      public String decribe(final int opCode, final MethodInfo methodInfo) {
+      public String describe(final int opCode, final MethodInfo methodInfo) {
         return "replaced return of double value with -(x + 1) for "
             + methodInfo.getDescription();
       }
@@ -188,7 +188,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
     };
   }
 
-  private static ZeroOperandMutation ireturnMutation() {
+  private static ZeroOperandMutation integerReturnMutation() {
     return new ZeroOperandMutation() {
 
       @Override
@@ -203,7 +203,7 @@ class ReturnValsMethodVisitor extends AbstractInstructionMutator {
       }
 
       @Override
-      public String decribe(final int opCode, final MethodInfo methodInfo) {
+      public String describe(final int opCode, final MethodInfo methodInfo) {
         return "replaced return of integer sized value with (x == 0 ? 1 : 0)";
       }
 
