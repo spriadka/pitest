@@ -19,7 +19,11 @@ import java.util.Map;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.pitest.mutationtest.engine.gregor.*;
+import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
+import org.pitest.mutationtest.engine.gregor.MutationContext;
+import org.pitest.mutationtest.engine.gregor.MethodInfo;
+import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
+import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
 import org.pitest.mutationtest.engine.gregor.AbstractInstructionMutator;
 
 public class UnviableClassMutator implements MethodMutatorFactory {
