@@ -11,16 +11,16 @@ import java.util.concurrent.Callable;
 
 import static org.junit.Assert.assertEquals;
 
-public class EmptyCollectionMutatorTest extends MutatorTestBase {
+public class CollectionInitializationMutatorTest extends MutatorTestBase {
 
     @Before
     public void setUp() {
-        createTesteeWith(EmptyCollectionMutator.EMPTY_COLLECTION_MUTATOR);
+        createTesteeWith(CollectionInitializationMutator.COLLECTION_INITIALIZATION_MUTATOR);
     }
 
     @Test
     public void shouldProvideMeaningfulMutatorName() {
-        assertEquals("EMPTY_COLLECTION_MUTATOR", EmptyCollectionMutator.EMPTY_COLLECTION_MUTATOR.getName());
+        assertEquals("COLLECTION_INITIALIZATION_MUTATOR", CollectionInitializationMutator.COLLECTION_INITIALIZATION_MUTATOR.getName());
     }
 
     private static class EmptyCollectionAnonymous implements Callable<String> {

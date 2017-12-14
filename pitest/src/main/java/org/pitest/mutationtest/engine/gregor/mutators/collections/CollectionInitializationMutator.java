@@ -10,12 +10,12 @@ import org.pitest.mutationtest.engine.gregor.MutationContext;
 
 import java.util.Collection;
 
-public enum EmptyCollectionMutator implements MethodMutatorFactory {
+public enum CollectionInitializationMutator implements MethodMutatorFactory {
 
-    EMPTY_COLLECTION_MUTATOR {
+    COLLECTION_INITIALIZATION_MUTATOR {
         @Override
         public MethodVisitor create(MutationContext context, MethodInfo methodInfo, MethodVisitor methodVisitor) {
-            return new EmptyCollectionMutatorVisitor(context, methodVisitor, this);
+            return new CollectionInitializationMutatorVisitor(context, methodVisitor, this);
         }
     };
 
@@ -31,12 +31,12 @@ public enum EmptyCollectionMutator implements MethodMutatorFactory {
     }
 }
 
-class EmptyCollectionMutatorVisitor extends MethodVisitor {
+class CollectionInitializationMutatorVisitor extends MethodVisitor {
 
     private final MethodMutatorFactory factory;
     private final MutationContext context;
 
-    public EmptyCollectionMutatorVisitor(final MutationContext context
+    public CollectionInitializationMutatorVisitor(final MutationContext context
             , final MethodVisitor visitor
             , final MethodMutatorFactory factory) {
         super(Opcodes.ASM6, visitor);
