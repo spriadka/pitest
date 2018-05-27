@@ -49,6 +49,9 @@ import org.pitest.mutationtest.engine.gregor.mutators.RemoveConditionalMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.RemoveConditionalMutator.Choice;
 import org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.collections.AddAllCollectionMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.collections.CollectionInitializationMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.collections.RemoveAllCollectionMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveIncrementsMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator;
@@ -146,7 +149,7 @@ public final class Mutator {
     add("EMPTY_RETURNS", EmptyObjectReturnValsMutator.EMPTY_RETURN_VALUES);
     add("NULL_RETURNS", NullReturnValsMutator.NULL_RETURN_VALUES);
     addGroup("RETURNS", betterReturns());
-    
+
     /**
      * Experimental mutator that removed assignments to member variables.
      */
@@ -171,11 +174,29 @@ public final class Mutator {
      */
     add("EXPERIMENTAL_NAKED_RECEIVER", NakedReceiverMutator.NAKED_RECEIVER);
 
+    /**
+     * Experimental mutator that deletes collection passed as an argument when creating Collections
+     */
+    add("COLLECTION_INITIALIZATION_MUTATOR", CollectionInitializationMutator.COLLECTION_INITIALIZATION_MUTATOR);
+
+
+    /**
+     * Experimental mutator that replaces collections passed into the addAll method with empty collection
+     */
+    add("COLLECTION_ADD_ALL_MUTATOR", new AddAllCollectionMutator());
+
+
+    /**
+     * Experimental mutator that replaces collections passed into the removeAll method with empty collection
+     */
+    add("COLLECTION_REMOVE_ALL_MUTATOR", new RemoveAllCollectionMutator());
+
     addGroup("REMOVE_SWITCH", RemoveSwitchMutator.makeMutators());
     addGroup("DEFAULTS", defaults());
     addGroup("STRONGER", stronger());
     addGroup("ALL", all());
     addGroup("NEW_DEFAULTS", newDefaults());
+    addGroup("COLLECTIONS", collections());
   }
 
   public static Collection<MethodMutatorFactory> all() {
@@ -196,6 +217,10 @@ public final class Mutator {
     return l;
   }
 
+  public static Collection<MethodMutatorFactory> collections() {
+    return group(new AddAllCollectionMutator(), new RemoveAllCollectionMutator(), CollectionInitializationMutator.COLLECTION_INITIALIZATION_MUTATOR);
+  }
+
   /**
    * Default set of mutators - designed to provide balance between strength and
    * performance
@@ -208,7 +233,7 @@ public final class Mutator {
         ConditionalsBoundaryMutator.CONDITIONALS_BOUNDARY_MUTATOR,
         IncrementsMutator.INCREMENTS_MUTATOR);
   }
-  
+
   /**
    * Proposed new defaults - replaced the RETURN_VALS mutator with the new more stable set
    */
@@ -220,8 +245,8 @@ public final class Mutator {
         ConditionalsBoundaryMutator.CONDITIONALS_BOUNDARY_MUTATOR,
         IncrementsMutator.INCREMENTS_MUTATOR), betterReturns());
   }
-  
-  
+
+
   public static Collection<MethodMutatorFactory> betterReturns() {
     return group(BooleanTrueReturnValsMutator.BOOLEAN_TRUE_RETURN,
         BooleanFalseReturnValsMutator.BOOLEAN_FALSE_RETURN,
